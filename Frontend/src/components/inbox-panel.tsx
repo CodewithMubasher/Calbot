@@ -32,7 +32,7 @@ export function InboxPanel({
   return (
     <aside
       style={{ width: "calc(var(--sidebar-width) * 1.25)" }}
-      className="flex shrink-0 flex-col border-r border-border bg-transparent"
+      className="flex min-h-0 shrink-0 flex-col border-r border-border bg-transparent"
     >
       <div className="flex items-center p-3">
         <div className="relative w-full">
@@ -52,7 +52,7 @@ export function InboxPanel({
         </div>
       </div>
 
-      <ul className="flex flex-1 flex-col gap-0.5 px-2 pb-3">
+      <ul className="flex min-h-0 flex-1 scrollbar-thin flex-col gap-0.5 overflow-y-auto px-2 pb-3">
         {visible.map((item) => (
           <li key={item.id}>
             <button

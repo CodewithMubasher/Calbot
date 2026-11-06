@@ -36,7 +36,10 @@ export function BotSettingsPanel({
         open ? "border-l border-border" : ""
       }`}
     >
-      <div style={{ width: PANEL_WIDTH }}>
+      <div
+        style={{ width: PANEL_WIDTH }}
+        className="h-full scrollbar-thin overflow-y-auto"
+      >
         <header className="grid h-14 grid-cols-[2.25rem_1fr_2.25rem] items-center border-b border-border px-2">
           <Button
             variant="ghost"

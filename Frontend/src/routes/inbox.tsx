@@ -23,9 +23,9 @@ function InboxPage() {
     setBots((all) => all.map((b) => (b.id === bot.id ? { ...b, ...patch } : b)))
 
   return (
-    // The whole inbox (panel, topbar, messages, settings) is one scroll area.
-    <div className="h-svh min-w-0 overflow-y-auto">
-      <div className="flex min-h-full flex-row">
+    // Fixed-height shell: only the message list (and long panels) scroll.
+    <div className="h-svh min-w-0 overflow-hidden">
+      <div className="flex h-full flex-row">
         <InboxPanel
           bots={bots}
           selectedId={selectedId}

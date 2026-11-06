@@ -136,3 +136,25 @@
     padding: 0 !important;
   }
 }
+
+@layer utilities {
+  /* Thin, subtle scrollbar for in-app scroll areas. */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklch, var(--foreground) 22%, transparent)
+      transparent;
+  }
+  @supports not (scrollbar-width: thin) {
+    .scrollbar-thin::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      border-radius: 9999px;
+      background: color-mix(in oklch, var(--foreground) 22%, transparent);
+    }
+    .scrollbar-thin::-webkit-scrollbar-track {
+      background: transparent;
+    }
+  }
+}

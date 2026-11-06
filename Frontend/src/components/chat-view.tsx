@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react"
 import { Settings03Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { BotAvatar } from "@/components/bot-avatar"
@@ -17,16 +18,22 @@ type ChatViewProps = {
 }
 
 /** Main Inbox area: top bar, conversation, composer. Same background as the
- *  sidebar. It has no scroll container of its own: the whole inbox page
- *  (panel + topbar + messages) scrolls together, and the composer stays
- *  pinned to the bottom of the viewport. */
+ *  sidebar. Topbar and composer stay put; only the message list scrolls. */
 export function ChatView({
   bot,
   settingsOpen,
   onToggleSettings,
 }: ChatViewProps) {
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  // Open each conversation scrolled to the newest message.
+  useEffect(() => {
+    const el = scrollRef.current
+    if (el) el.scrollTop = el.scrollHeight
+  }, [bot.id])
+
   return (
-    <section className="flex min-w-0 flex-1 flex-col bg-sidebar">
+    <section className="flex min-h-0 min-w-0 flex-1 flex-col bg-sidebar">
       {/* Top bar */}
       <header className="flex h-14 shrink-0 items-center justify-between border-b border-border px-4">
         <button
@@ -50,13 +57,18 @@ export function ChatView({
         </Button>
       </header>
 
-      {/* Conversation */}
-      <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-3 px-6 py-6">
-        {bot.id === "chief" ? <ChiefConversation /> : <EmptyConversation />}
+      {/* Conversation: the only scrolling part of the chat */}
+      <div
+        ref={scrollRef}
+        className="min-h-0 flex-1 scrollbar-thin overflow-y-auto"
+      >
+        <div className="mx-auto flex w-full max-w-4xl flex-col gap-3 px-6 py-6">
+          {bot.id === "chief" ? <ChiefConversation /> : <EmptyConversation />}
+        </div>
       </div>
 
       {/* Composer */}
-      <div className="sticky bottom-0 shrink-0 bg-sidebar px-6 pt-2 pb-5">
+      <div className="shrink-0 px-6 pt-2 pb-5">
         <PromptInput
           placeholder={`Message ${bot.name}`}
           className="mx-auto max-w-4xl"
